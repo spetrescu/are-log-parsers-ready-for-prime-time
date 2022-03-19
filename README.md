@@ -42,6 +42,55 @@ This repository contains the code associated with ...
 
 ---
 
+## Setup
+Below you can find instructions to reproduce the experiments. <br>
+The following methods and datasets can be tested, in their respective environment.
+```html
+   Method      | Python 2 | Python 3 |
+--------------------------------------
+   AEL         |     X    |     -    |
+   Drain       |     X    |     -    |
+   IPLoM       |     X    |     -    |
+   LenMa       |     X    |     -    |
+   LFA         |     X    |     -    |
+   LKE         |     X    |     -    |
+   LogCluster  |     X    |     -    |
+   LogMine     |     X    |     -    |
+   LogSig      |     X    |     -    |
+   SHISO       |     X    |     -    |
+   SLCT        |     X    |     -    |
+   Spell       |     X    |     -    |
+   MoLFI       |     -    |     X    |
+   NuLog       |     -    |     X    |
+```
+
+#### Python 2 Methods
+1. `mkdir logparser && docker run --name logparser_py2 -it -v logparser:/logparser logpai/logparser:py2 bash`
+2. `cd ~`
+3. `git clone https://github.com/spetrescu/are-log-parsers-ready-for-industry.git`
+4. `cd are-log-parsers-ready-for-industry`
+5. `cd src`
+6. `cd experiments`
+7. `cd python2`
+8. `sh run_experiment_python2.sh -m <METHOD> -d <DATASET>` <br>
+
+After running the commands above, the results can be found under `src/experiments/python2/results`
+
+#### Python 3 Methods
+
+1. `mkdir logparser && docker run --name logparser_py3 -it -v logparser:/logparser logpai/logparser:py3 bash`
+2. `cd ~`
+3. `git clone https://github.com/spetrescu/are-log-parsers-ready-for-industry.git`
+4. `cd are-log-parsers-ready-for-industry`
+5. `cd src`
+6. `cd experiments`
+7. `cd python3`
+8. `sh run_experiment_python3.sh -m <METHOD> -d <DATASET>` <br>
+
+After running the commands above, the results can be found under `src/experiments/python3/results`
+
+---
+
 ## Datasets Used
 To run experiments, we used nine publicly available datasets:
 1. `Apache`
