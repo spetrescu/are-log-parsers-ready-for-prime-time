@@ -59,7 +59,7 @@ then
 fi
 
 printf "Running method %s\n" "$method"
-printf "Datasets used for current experiment: %s\n" "$dataset"
+printf "Datasets used for current experiment: $dataset \n \n"
 
 cd logparser/
 cd benchmark/
@@ -67,7 +67,6 @@ cd benchmark/
 cd ..
 rm -rf results/final_results/
 rm -rf results/raw_results/
-rm -rf results/raw/
 cd benchmark/
 
 for d in $dataset
@@ -76,8 +75,8 @@ do
   do
     for r in 1 2 3 4 5 6 7 8 9 10
     do
+        echo "Parsing $d dataset of size "$s"k using "$method" [run no $r]"
         python "$method"_benchmark.py $d $s $r
-        echo "Parsing $d dataset of size "$s"k [run no $r]"
         cd ..
         cd results/
         mkdir -p "final_results/""$method""_results/"
