@@ -14,75 +14,66 @@ output_dir = (
 input_dir = "../../../../../data/refactored_logs"  # The input directory of log file
 
 benchmark_settings = {
-    'HDFS': {
-        'log_format': '<Content>',
-        'regex': [r'blk_-?\d+', r'(\d+\.){3}\d+(:\d+)?'],
-        'minEventCount': 2,
-        'merge_percent': 0.5
+    "Apache": {
+        "log_format": "<Content>",
+        "regex": [r"(\d+\.){3}\d+"],
+        "minEventCount": 2,
+        "merge_percent": 0.4,
     },
-
-    'Spark': {
-        'log_format': '<Content>',
-        'regex': [r'(\d+\.){3}\d+', r'\b[KGTM]?B\b', r'([\w-]+\.){2,}[\w-]+'],
-        'minEventCount': 2,
-        'merge_percent': 0.4
+    "BGL": {
+        "log_format": "<Content>",
+        "regex": [r"core\.\d+"],
+        "minEventCount": 2,
+        "merge_percent": 0.5,
     },
-
-    'BGL': {
-        'log_format': '<Content>',
-        'regex': [r'core\.\d+'],
-        'minEventCount': 2,
-        'merge_percent': 0.5
+    "HDFS": {
+        "log_format": "<Content>",
+        "regex": [r"blk_-?\d+", r"(\d+\.){3}\d+(:\d+)?"],
+        "minEventCount": 2,
+        "merge_percent": 0.5,
     },
-
-    'HPC': {
-        'log_format': '<Content>',
-        'regex': [r'=\d+'],
-        'minEventCount': 5,
-        'merge_percent': 0.4
+    "HealthApp": {
+        "log_format": "<Content>",
+        "regex": [],
+        "minEventCount": 2,
+        "merge_percent": 0.6,
     },
-
-    'Windows': {
-        'log_format': '<Content>',
-        'regex': [r'0x.*?\s'],
-        'minEventCount': 2,
-        'merge_percent': 0.4
+    "HPC": {
+        "log_format": "<Content>",
+        "regex": [r"=\d+"],
+        "minEventCount": 5,
+        "merge_percent": 0.4,
     },
-
-    'HealthApp': {
-        'log_format': '<Content>',
-        'regex': [],
-        'minEventCount': 2,
-        'merge_percent': 0.6
+    "Mac": {
+        "log_format": "<Content>",
+        "regex": [r"([\w-]+\.){2,}[\w-]+"],
+        "minEventCount": 2,
+        "merge_percent": 0.6,
     },
-
-    'Apache': {
-        'log_format': '<Content>',
-        'regex': [r'(\d+\.){3}\d+'],
-        'minEventCount': 2,
-        'merge_percent': 0.4
+    "OpenStack": {
+        "log_format": "<Content>",
+        "regex": [r"((\d+\.){3}\d+,?)+", r"/.+?\s", r"\d+"],
+        "minEventCount": 6,
+        "merge_percent": 0.5,
     },
-
-    'OpenStack': {
-        'log_format': '<Content>',
-        'regex': [r'((\d+\.){3}\d+,?)+', r'/.+?\s', r'\d+'],
-        'minEventCount': 6,
-        'merge_percent': 0.5
+    "Spark": {
+        "log_format": "<Content>",
+        "regex": [r"(\d+\.){3}\d+", r"\b[KGTM]?B\b", r"([\w-]+\.){2,}[\w-]+"],
+        "minEventCount": 2,
+        "merge_percent": 0.4,
     },
-
-    'Mac': {
-        'log_format': '<Content>',
-        'regex': [r'([\w-]+\.){2,}[\w-]+'],
-        'minEventCount': 2,
-        'merge_percent': 0.6
+    "Windows": {
+        "log_format": "<Content>",
+        "regex": [r"0x.*?\s"],
+        "minEventCount": 2,
+        "merge_percent": 0.4,
     },
-
-    'Combined_Dataset': {
-        'log_format': '<Content>',
-        'regex': [],
-        'minEventCount': 2,
-        'merge_percent': 0.6
-    }
+    "Combined_Dataset": {
+        "log_format": "<Content>",
+        "regex": [],
+        "minEventCount": 2,
+        "merge_percent": 0.6,
+    },
 }
 
 
@@ -91,9 +82,9 @@ def parsing_logs(setting, indir, output_dir, log_file):
         log_format=setting["log_format"],
         indir=indir,
         outdir=output_dir,
-        minEventCount=setting['minEventCount'],
-        merge_percent=setting['merge_percent'],
-        rex=setting['regex']
+        minEventCount=setting["minEventCount"],
+        merge_percent=setting["merge_percent"],
+        rex=setting["regex"],
     )
     parser.parse(log_file)
 
