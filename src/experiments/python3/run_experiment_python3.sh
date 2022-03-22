@@ -5,21 +5,9 @@ where:
     -m  set the method (default: Drain)
     -d  set the dataset (default: All datasets)
 allowed methods:
- AEL
- Drain
- IPLoM
- LenMa
- LFA
- LKE
- LogCluster
- LogMine
- LogSig
  MoLFI
- SHISO
- SLCT
- Spell
 allowed datasets:
- Apachegi
+ Apache
  BGL
  HDFS
  HealthApp
@@ -54,38 +42,51 @@ fi
 if [ -z "$dataset" ]
 then
       echo "\$dataset argument empty. Thus, running script over all datasets."
+      echo "Running $method 10 times on 10 datasets...\n"
       dataset="Apache BGL HDFS HealthApp HPC Mac OpenStack Spark Windows Combined_Dataset"
 fi
 
 printf "Running method %s\n" "$method"
-printf "Datasets used for current experiment: %s\n" "$dataset"
+printf "Datasets used for current experiment: $dataset \n \n"
 
 cd logparser/
 cd benchmark/
 
-echo "Running $method 10 times on 10 datasets...\n"
+cd ..
+rm -rf results/final_results/
+rm -rf results/raw_results/
+cd benchmark/
+
 for d in $dataset
-#for d in Apache
 do
   for s in 2
   do
-    for r in 1 2 3
+    for r in 1 2 3 4 5 6 7 8 9 10
     do
+        echo "Parsing $d dataset of size "$s"k using "$method" [run no $r]"
         python "$method"_benchmark.py $d $s $r
-        echo "Parsing $d dataset of size "$s"k [run no $r]"
         cd ..
         cd results/
         mkdir -p "final_results/""$method""_results/"
+        mkdir -p "final_results/""$method""_results_templates/"
         cp "raw_results/""$method""_results/${d}_2k.log_structured.csv" "final_results/""$method""_results/${d}_2k.log_structured_run_${r}.csv"
+        cp "raw_results/""$method""_results/${d}_2k.log_templates.csv" "final_results/""$method""_results_templates/${d}_2k.log_templates_run_${r}.csv"
         cd ..
         cd benchmark/
     done
   done
 done
-echo "\nThe parsed logs yielded by this experiment can be found under results/\n"
 
 cd ..
 cd results/
 python compute_results.py $method
 
-echo "Computing accuracy results...\n"
+mkdir -p raw/raw_results_each_run
+cp -r final_results/ raw_results_each_run/
+cp -r raw_results_each_run/ raw/
+rm -rf raw_results_each_run/
+rm -rf final_results/
+rm -rf raw/final_results/
+rm -rf raw_results/
+
+echo "\nThe parsed logs yielded by this experiment can be found under logparser/results/\n"
