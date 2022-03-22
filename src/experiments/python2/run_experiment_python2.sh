@@ -88,7 +88,6 @@ do
     done
   done
 done
-echo "\nThe parsed logs yielded by this experiment can be found under results/\n"
 
 cd ..
 cd results/
@@ -101,3 +100,5 @@ rm -rf raw_results_each_run/
 rm -rf final_results/
 rm -rf raw/final_results/
 rm -rf raw_results/
+
+echo "\nThe parsed logs yielded by this experiment can be found under logparser/results/\n"
