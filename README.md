@@ -72,9 +72,10 @@ The following methods and datasets can be tested, in their respective environmen
 5. `cd src`
 6. `cd experiments`
 7. `cd python2`
-8. `sh run_experiment_python2.sh -m <METHOD> -d <DATASET>` <br>
+8. `sh setup_python2.sh`
+9. `sh run_experiment_python2.sh -m <METHOD> -d <DATASET>` <br>
 
-After running the commands above, the results can be found under `src/experiments/python2/results`
+After running the commands above, the results can be found under `src/experiments/python2/logparser/results`
 
 #### Python 3 Methods
 
@@ -85,9 +86,10 @@ After running the commands above, the results can be found under `src/experiment
 5. `cd src`
 6. `cd experiments`
 7. `cd python3`
-8. `sh run_experiment_python3.sh -m <METHOD> -d <DATASET>` <br>
+8. `sh setup_python3.sh`
+9. `sh run_experiment_python3.sh -m <METHOD> -d <DATASET>` <br>
 
-After running the commands above, the results can be found under `src/experiments/python3/results`
+After running the commands above, the results can be found under `src/experiments/python3/logparser/results`
 
 ---
 
@@ -113,7 +115,7 @@ For example, the `Apache` dataset has three files associated with it, namely:
 2. Apache_2k.log_structured.csv
 3. Apache_2k.log_templates.csv
 
-To create a workflow able to integrate seamlessly with our log datasets, we modified the publicly avaiable datasets. Namely, we reorganized them and excluded information that was considered out of scope. Additionally, we created a dataset that combined all the datasets. Specifically, we:
+To create a workflow able to integrate seamlessly with our log datasets, we modified the publicly avaiable datasets. Namely, we reorganized them and excluded information that was considered out of scope. Additionally, we created a dataset that combined all the datasets. Specifically:
 
 ### 1. Keep only log `Content`
 Ensured that the \<`DATASET`>_2k.log file type contained only log `Content` information. `META` information, such as `Timestamp`, `Date`, `Node`, etc. was considered out of scope. We provide an example below: for the Apache dataset, the Apache_2k.log dataset initially contained various `META` information, such as `Time` and `Level`. We removed this information and kept only the log `Content`.<br> <img src="https://user-images.githubusercontent.com/60047427/158858976-3725ff0a-16d2-4ca8-85b0-ec96f9550c90.png" alt="dataset_modification" width="700"/>
