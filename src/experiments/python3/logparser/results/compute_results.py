@@ -1,67 +1,165 @@
 import sys
-sys.path.append('../')
-from logparser import Drain, evaluator
+
+sys.path.append("../")
+from logparser import evaluator
 import os
 import pandas as pd
-
-#
-import sys
+import time
+from natsort import natsorted
 
 n = len(sys.argv)
 METHOD = str(sys.argv[1])
 
-print(f"Now computing results for method {METHOD}...")
+print("Now computing results for method {0}...".format(METHOD))
 
 GROUND_TRUTH_FILE_PATHS = {
-    "Apache": f"../../../../../data/logs/Apache/Apache_2k.log_structured.csv",
-    "BGL": f"../../../../../data/logs/BGL/BGL_2k.log_structured.csv",
-    "Combined_Dataset": f"../../../../../data/logs/Combined_Dataset/Combined_Dataset_2k.log_structured.csv",
-    "HDFS": f"../../../../../data/logs/HDFS/HDFS_2k.log_structured.csv",
-    "HealthApp": f"../../../../../data/logs/HealthApp/HealthApp_2k.log_structured.csv",
-    "HPC": f"../../../../../data/logs/HPC/HPC_2k.log_structured.csv",
-    "Mac": f"../../../../../data/logs/Mac/Mac_2k.log_structured.csv",
-    "OpenStack": f"../../../../../data/logs/OpenStack/OpenStack_2k.log_structured.csv",
-    "Spark": f"../../../../../data/logs/Spark/Spark_2k.log_structured.csv",
-    "Windows": f"../../../../../data/logs/Windows/Windows_2k.log_structured.csv",
+    "Apache": "../../../../../data/refactored_logs/Apache/Apache_2k.log_structured.csv",
+    "BGL": "../../../../../data/refactored_logs/BGL/BGL_2k.log_structured.csv",
+    "Combined_Dataset": "../../../../../data/refactored_logs/Combined_Dataset/Combined_Dataset_2k.log_structured.csv",
+    "HDFS": "../../../../../data/refactored_logs/HDFS/HDFS_2k.log_structured.csv",
+    "HealthApp": "../../../../../data/refactored_logs/HealthApp/HealthApp_2k.log_structured.csv",
+    "HPC": "../../../../../data/refactored_logs/HPC/HPC_2k.log_structured.csv",
+    "Mac": "../../../../../data/refactored_logs/Mac/Mac_2k.log_structured.csv",
+    "OpenStack": "../../../../../data/refactored_logs/OpenStack/OpenStack_2k.log_structured.csv",
+    "Spark": "../../../../../data/refactored_logs/Spark/Spark_2k.log_structured.csv",
+    "Windows": "../../../../../data/refactored_logs/Windows/Windows_2k.log_structured.csv",
 }
 
 files_parsed = []
 
-for file in os.listdir(f"final_results/{METHOD}_results/"):
+for file in os.listdir("final_results/{0}_results/".format(METHOD)):
     if file.endswith(".csv"):
-        files_parsed.append(os.path.join(f"final_results/{METHOD}_results/", file))
+        files_parsed.append(
+            os.path.join("final_results/{0}_results/".format(METHOD), file)
+        )
 
 dsets = []
 
 for file in files_parsed:
     dset = str(file).split("/")[-1].split("_")[0]
-    dsets.append(dset)
+    if "Combine" in dset:
+        dsets.append("Combined_Dataset")
+    else:
+        dsets.append(dset)
 
 dsets = list(dict.fromkeys(dsets))
 
 results = []
+averaged_results = []
+
 for dset in dsets:
     list_of_parsed_files_for_specific_dataset = [
         parsed_logfile_name
         for parsed_logfile_name in files_parsed
         if dset in parsed_logfile_name
     ]
-    print(sorted(list_of_parsed_files_for_specific_dataset))
 
-    for parsed_log_file in list_of_parsed_files_for_specific_dataset:
-        groundtruth = GROUND_TRUTH_FILE_PATHS[f"{dset}"]
+    for parsed_log_file in natsorted(list_of_parsed_files_for_specific_dataset):
+        print("Evaluating {0}".format(parsed_log_file))
+        groundtruth = GROUND_TRUTH_FILE_PATHS["{0}".format(dset)]
         parsedresult = parsed_log_file
-        F1_measure, accuracy = evaluator.evaluate(
+
+        precision, reacall, F1_measure, accuracy = evaluator.evaluate(
             groundtruth=groundtruth, parsedresult=parsedresult
         )
-        results.append([dset, F1_measure, accuracy])
+        results.append([dset, precision, reacall, F1_measure, accuracy])
+        print("")
+
+t = time.localtime()
+current_time = time.strftime("%H_%M_%S", t)
+
+res_file = str(METHOD) + "_results_" + str(current_time) + ".csv"
+res_file_avg = str(METHOD) + "_avg_results_" + str(current_time) + ".csv"
 
 
-def append_to_a_new_csv_file(results, new_csv_file, header):
-    df_result = pd.DataFrame(results, columns=["Dataset", "F1_measure", "Accuracy"])
+def append_to_a_new_csv_file(results, new_csv_file):
+    df_result = pd.DataFrame(
+        results, columns=["Dataset", "Precision", "Recall", "F1_measure", "Accuracy"]
+    )
+    df_result = df_result.round(
+        {"Precision": 3, "Recall": 3, "F1_measure": 3, "Accuracy": 3}
+    )
     df_result.set_index("Dataset", inplace=True)
-    df_result.T.to_csv("Drain_result.csv")
+    df_result.to_csv(new_csv_file)
+    print("Experiment results:")
+    print(df_result.to_string())
 
 
-print("files", files_parsed)
-print("dsets", dsets)
+def compute_overall_accuracy_measurements(results_file):
+    results_file_path = results_file
+    df = pd.read_csv(results_file_path)
+    df_avg_res = pd.DataFrame(
+        columns=[
+            "Dataset",
+            "Avg_Precision",
+            "Avg_Recall",
+            "Avg_F1_measure",
+            "Avg_Accuracy",
+        ]
+    )
+
+    avg_precision = (
+        df.groupby(["Dataset"])["Precision"].mean().to_frame("Precision").reset_index()
+    )
+    avg_recall = (
+        df.groupby(["Dataset"])["Recall"].mean().to_frame("Recall").reset_index()
+    )
+    avg_fmeasure = (
+        df.groupby(["Dataset"])["F1_measure"]
+        .mean()
+        .to_frame("F1_measure")
+        .reset_index()
+    )
+    avg_accuracy = (
+        df.groupby(["Dataset"])["Accuracy"].mean().to_frame("Accuracy").reset_index()
+    )
+
+    temp_df1 = pd.merge(
+        avg_precision, avg_recall, left_on="Dataset", right_on="Dataset", how="left"
+    )
+    temp_df2 = pd.merge(
+        temp_df1, avg_fmeasure, left_on="Dataset", right_on="Dataset", how="left"
+    )
+
+    df_avg_res = pd.merge(
+        temp_df2, avg_accuracy, left_on="Dataset", right_on="Dataset", how="left"
+    )
+    df_avg_res["Method"] = str(METHOD)
+    df_avg_res.rename(
+        columns={
+            "Precision": "Avg_Precision",
+            "Recall": "Avg_Recall",
+            "F1_measure": "Avg_F1_measure",
+            "Accuracy": "Avg_Accuracy",
+        },
+        inplace=True,
+    )
+    df_avg_res = df_avg_res[
+        [
+            "Dataset",
+            "Avg_Precision",
+            "Avg_Recall",
+            "Avg_F1_measure",
+            "Avg_Accuracy",
+            "Method",
+        ]
+    ]
+
+    print("\nAveraged results:")
+    print(df_avg_res.to_string(index=False))
+
+    return df_avg_res
+
+
+append_to_a_new_csv_file(results=results, new_csv_file=res_file)
+
+avg_res = compute_overall_accuracy_measurements(results_file=res_file)
+avg_res = avg_res.round(
+    {"Avg_Precision": 3, "Avg_Recall": 3, "Avg_F1_measure": 3, "Avg_Accuracy": 3}
+)
+avg_res.set_index("Dataset", inplace=True)
+avg_res.to_csv(res_file_avg)
+
+print(str("\nResults for each run can be found in " + str(res_file)))
+print(str("Averaged results can be found in " + str(res_file_avg)))
+print("")
