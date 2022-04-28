@@ -55,7 +55,7 @@ if [ -z "$dataset" ]
 then
       echo "\$dataset argument empty. Thus, running script over all datasets."
       echo "Running $method 10 times on 10 datasets...\n"
-      dataset="Apache BGL HDFS HealthApp HPC Mac OpenStack Spark Windows Combined_Dataset"
+      dataset="Apache BGL HDFS HealthApp HPC Mac OpenStack Spark Windows Combined_Dataset Industry_Dataset"
 fi
 
 printf "Running method %s\n" "$method"
