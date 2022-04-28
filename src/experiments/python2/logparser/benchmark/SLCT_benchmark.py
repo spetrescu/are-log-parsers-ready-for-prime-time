@@ -38,6 +38,7 @@ benchmark_settings = {
     },
     "Windows": {"log_format": "<Content>", "regex": [r"0x.*?\s"], "support": 3},
     "Combined_Dataset": {"log_format": "<Content>", "regex": [], "support": 3},
+    "Industry_Dataset": {"log_format": "<Content>", "regex": [], "support": 3},
 }
 
 

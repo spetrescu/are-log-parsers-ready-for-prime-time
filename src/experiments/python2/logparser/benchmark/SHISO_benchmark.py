@@ -92,6 +92,14 @@ benchmark_settings = {
         "formatLookupThreshold": 0.3,
         "superFormatThreshold": 0.85,
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "regex": [],
+        "maxChildNum": 4,
+        "mergeThreshold": 0.002,
+        "formatLookupThreshold": 0.3,
+        "superFormatThreshold": 0.85,
+    },
 }
 
 

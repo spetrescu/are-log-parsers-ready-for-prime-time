@@ -46,6 +46,11 @@ benchmark_settings = {
         "regex": [],
         "split_threshold": 600,
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "regex": [],
+        "split_threshold": 600,
+    },
 }
 
 

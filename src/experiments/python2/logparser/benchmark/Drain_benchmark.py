@@ -54,6 +54,7 @@ benchmark_settings = {
         "depth": 5,
     },
     "Combined_Dataset": {"log_format": "<Content>", "regex": [], "st": 0.7, "depth": 6},
+    "Industry_Dataset": {"log_format": "<Content>", "regex": [], "st": 0.7, "depth": 6},
 }
 
 

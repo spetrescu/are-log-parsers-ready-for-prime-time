@@ -45,6 +45,7 @@ benchmark_settings = {
     },
     "Windows": {"log_format": "<Content>", "regex": [r"0x.*?\s"], "threshold": 0.78},
     "Combined_Dataset": {"log_format": "<Content>", "regex": [], "threshold": 0.86},
+    "Industry_Dataset": {"log_format": "<Content>", "regex": [], "threshold": 0.86},
 }
 
 

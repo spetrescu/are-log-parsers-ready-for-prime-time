@@ -67,6 +67,12 @@ benchmark_settings = {
         "lowerBound": 0.25,
         "regex": [],
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "CT": 0.3,
+        "lowerBound": 0.25,
+        "regex": [],
+    },
 }
 
 

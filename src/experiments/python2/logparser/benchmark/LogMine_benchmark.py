@@ -82,6 +82,13 @@ benchmark_settings = {
         "k": 1,
         "levels": 2,
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "regex": [],
+        "max_dist": 0.004,
+        "k": 1,
+        "levels": 2,
+    },
 }
 
 

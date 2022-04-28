@@ -73,6 +73,12 @@ benchmark_settings = {
         'log_format': '<Content>',
         'regex': [],
         'rsupport': 0.2,
+    },
+
+    'Industry_Dataset': {
+        'log_format': '<Content>',
+        'regex': [],
+        'rsupport': 0.2,
     }
 }
 

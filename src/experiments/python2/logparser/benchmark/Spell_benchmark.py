@@ -34,6 +34,7 @@ benchmark_settings = {
     },
     "Windows": {"log_format": "<Content>", "regex": [r"0x.*?\s"], "tau": 0.7},
     "Combined_Dataset": {"log_format": "<Content>", "regex": [], "tau": 0.6},
+    "Industry_Dataset": {"log_format": "<Content>", "regex": [], "tau": 0.6},
 }
 
 

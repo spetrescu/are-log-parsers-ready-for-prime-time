@@ -74,6 +74,12 @@ benchmark_settings = {
         "minEventCount": 2,
         "merge_percent": 0.6,
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "regex": [],
+        "minEventCount": 2,
+        "merge_percent": 0.6,
+    },
 }
 
 
