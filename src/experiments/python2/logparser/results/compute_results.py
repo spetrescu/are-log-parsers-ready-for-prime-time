@@ -40,6 +40,8 @@ for file in files_parsed:
     dset = str(file).split("/")[-1].split("_")[0]
     if "Combine" in dset:
         dsets.append("Combined_Dataset")
+    elif "Industry" in dset:
+        dsets.append("Industry_Dataset")
     else:
         dsets.append(dset)
 
