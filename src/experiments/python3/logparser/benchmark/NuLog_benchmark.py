@@ -83,6 +83,13 @@ benchmark_settings = {
         "k": 300,
         "nr_epochs": 10,
     },
+    "Industry_Dataset": {
+        "log_format": "<Content>",
+        "filters": "([ ])",
+        "num_samples": 0,
+        "k": 300,
+        "nr_epochs": 10,
+    },
 }
 
 

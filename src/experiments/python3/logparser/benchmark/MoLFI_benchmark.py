@@ -31,6 +31,7 @@ benchmark_settings = {
     },
     "Mac": {"log_format": "<Content>", "regex": [r"([\w-]+\.){2,}[\w-]+"]},
     "Combined_Dataset": {"log_format": "<Content>", "regex": []},
+    "Industry_Dataset": {"log_format": "<Content>", "regex": []},
 }
 
 
