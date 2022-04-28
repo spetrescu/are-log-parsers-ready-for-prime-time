@@ -23,6 +23,7 @@ GROUND_TRUTH_FILE_PATHS = {
     "OpenStack": "../../../../../data/refactored_logs/OpenStack/OpenStack_2k.log_structured.csv",
     "Spark": "../../../../../data/refactored_logs/Spark/Spark_2k.log_structured.csv",
     "Windows": "../../../../../data/refactored_logs/Windows/Windows_2k.log_structured.csv",
+    "Industry_Dataset": "../../../../../data/refactored_logs/Industry_Dataset/Industry_Dataset_2k.log_structured.csv",
 }
 
 files_parsed = []
