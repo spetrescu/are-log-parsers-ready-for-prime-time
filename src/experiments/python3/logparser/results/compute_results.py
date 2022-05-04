@@ -33,12 +33,9 @@ def compute_accuracy(ground_truth, parsed_result):
     parsed_result_df = pd.read_csv(parsed_result)
 
     ground_truth_df = ground_truth_df["EventTemplate"]
-    parsed_result_df = ground_truth_df["EventTemplate"]
+    parsed_result_df = parsed_result_df["EventTemplate"]
 
-    print(ground_truth_df)
-    print(parsed_result_df)
-
-    print(accuracy_score(ground_truth_df, parsed_result_df))
+    return accuracy_score(ground_truth_df, parsed_result_df)
 
 
 files_parsed = []
@@ -81,6 +78,7 @@ for dset in dsets:
         #     groundtruth=groundtruth, parsedresult=parsedresult
         # )
         accuracy = compute_accuracy(ground_truth=groundtruth, parsed_result=parsedresult)
+        print("Accuracy is: ", accuracy)
 
         #results.append([dset, precision, reacall, F1_measure, accuracy])
         results.append([dset, accuracy, accuracy, accuracy, accuracy])
