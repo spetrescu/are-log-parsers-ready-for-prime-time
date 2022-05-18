@@ -7,6 +7,8 @@ import os
 import pandas as pd
 import time
 from natsort import natsorted
+from nltk.metrics.distance import edit_distance
+import numpy as np
 
 n = len(sys.argv)
 METHOD = str(sys.argv[1])
@@ -37,6 +39,22 @@ def compute_accuracy(ground_truth, parsed_result):
 
     return accuracy_score(ground_truth_df, parsed_result_df)
 
+
+def compute_edit_distance(ground_truth, parsed_result):
+    ground_truth_df = pd.read_csv(ground_truth)
+    parsed_result_df = pd.read_csv(parsed_result)
+
+    edit_distance_result = []
+    for i, j in zip(np.array(ground_truth_df.EventTemplate.values, dtype='str'),
+                    np.array(parsed_result_df.EventTemplate.values, dtype='str')):
+        edit_distance_result.append(edit_distance(i, j))
+
+    edit_distance_result_mean = np.mean(edit_distance_result)
+    # edit_distance_result_std = np.std(edit_distance_result)
+
+    print("Edit-distance avg:", edit_distance_result_mean)
+
+    return edit_distance_result_mean
 
 files_parsed = []
 
@@ -80,8 +98,11 @@ for dset in dsets:
         accuracy = compute_accuracy(ground_truth=groundtruth, parsed_result=parsedresult)
         print("Accuracy is: ", accuracy, "for {0}".format(parsed_log_file))
 
-        #results.append([dset, precision, reacall, F1_measure, accuracy])
-        results.append([dset, accuracy, accuracy, accuracy, accuracy])
+        edit_distance_score = compute_edit_distance(ground_truth=groundtruth, parsed_result=parsedresult)
+        print("Edit-distance is: ", edit_distance_score, "for {0}".format(parsed_log_file))
+
+        # results.append([dset, precision, reacall, F1_measure, accuracy])
+        results.append([dset, edit_distance_score, accuracy, accuracy, accuracy])
         print("")
 
 t = time.localtime()
@@ -125,9 +146,9 @@ def compute_overall_accuracy_measurements(results_file):
     )
     avg_fmeasure = (
         df.groupby(["Dataset"])["F1_measure"]
-        .mean()
-        .to_frame("F1_measure")
-        .reset_index()
+            .mean()
+            .to_frame("F1_measure")
+            .reset_index()
     )
     avg_accuracy = (
         df.groupby(["Dataset"])["Accuracy"].mean().to_frame("Accuracy").reset_index()
