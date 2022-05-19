@@ -1,5 +1,6 @@
-# are-log-parsers-ready-for-prime-time
-This repository contains the code associated with the paper: [Are log parsers ready for prime time?](), submitted at CIKM 22'.
+# are-log-parsers-ready-for-industry
+`README.md under construction ...` <br> <br>
+This repository contains the code associated with ...
 
 ---
 
@@ -10,7 +11,7 @@ This repository contains the code associated with the paper: [Are log parsers re
 │   ├── logs/
 │   └── refactored_logs/
 ├── pdf
-│   └── are_log_parsers_ready_for_prime_time.pdf
+│   └── are_log_parsers_ready_for_industry.pdf
 ├── src
 │   ├── combine_datasets/
 │   ├── experiments/
