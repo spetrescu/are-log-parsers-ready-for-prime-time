@@ -1,6 +1,5 @@
-# are-log-parsers-ready-for-industry
-`README.md under construction ...` <br> <br>
-This repository contains the code associated with ...
+# are-log-parsers-ready-for-prime-time
+This repository contains the code associated with this [paper]().
 
 ---
 
@@ -11,7 +10,7 @@ This repository contains the code associated with ...
 │   ├── logs/
 │   └── refactored_logs/
 ├── pdf
-│   └── are_log_parsers_ready_for_industry.pdf
+│   └── are_log_parsers_ready_for_prime_time.pdf
 ├── src
 │   ├── combine_datasets/
 │   ├── experiments/
